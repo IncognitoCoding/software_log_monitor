@@ -1,6 +1,5 @@
-venv/
 *.log
-monitor.ini
+venv/
 software_log_monitor.yaml
 sample_search/
 .vscode/
