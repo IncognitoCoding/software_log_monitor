@@ -1,0 +1,9 @@
+venv/
+*.log
+software_log_mobgv5t 8un
+monitor.ini
+software_log_monitor.yaml
+sample_search/
+.vscode/
+.vscode/settings.json
+__pycache__/

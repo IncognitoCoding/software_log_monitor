@@ -1,0 +1,105 @@
+general:
+  # Add the number of seconds to sleep between log checks
+  monitor_sleep: 15
+  # True or False
+  email_alerts: True
+  # Sends email alerts with program crashes
+  # True: enabled, False: disabled
+  alert_program_errors: True
+
+
+software:
+  software_entry1:
+    # Add the software name
+    name: 'MySoftware1'
+    url_log_path: '\\mypath\sample1.log'
+    # Add search info. List format for  multiple entries.
+    info_search:
+      - '|Error|'
+      - 'Warning'
+    # (Optional): Add post processing args, such as running a post processing program. List format for  multiple entries.
+    post_processing_args: 'ipconfig'
+    # (Optional): Add post processing output search. List format for  multiple entries.
+    post_processing_info_search: ''
+  software_entry2:
+    # Add the software name
+    name: 'MySoftware2'
+    url_log_path: '\\mypath\sample2.log'
+    # Add search info. List format for  multiple entries.
+    info_search: '|Error|'
+    # (Optional): Add post processing args, such as running a post processing program. List format for  multiple entries.
+    post_processing_args:
+      - 'python'
+      - '\\mypath\script.py'
+     # (Optional): Add post processing output search. List format for  multiple entries.
+    post_processing_info_search: 
+      - 'Output Entry 1'
+      - 'Output Entry 2'
+  # Add any additional software entries below and increase the nubmer by 1
+  # Requires: name, url_log_path, and info_search
+
+
+email:
+  # True or False
+  enable: True
+  smtp: smtp.yourdomain.com
+  # True or False
+  authentication_required: False
+  username: SMTP_username
+  # Leave blank if not required
+  password: SMTP_password
+  #True: Use TLS on port 587, False: Standard port 25
+  use_tls: False
+  from_email: alerts@monitoring.me
+  to_email: youremail@monitoring.me
+  # Allows the alert message to be encrypted
+  # True: enabled, False: disabled
+  send_message_encrypted: True
+  # Sends email alerts with program crashes
+  # True: enabled, False: disabled
+  alert_program_errors: True
+  # These settings are required to send an encrypted email message
+  # Password input to be used with the random salt
+  message_encryption_password: ChangePassword1
+  # Create a random "salt" using this command "print("urandom16 Key:", os.urandom(16))"
+  message_encryption_random_salt: b'ChangeME'
+
+
+companion_programs:
+  # Allows a decryption web option for encrypted info
+  # URL: http://127.0.0.1:5000/
+  # True: enabled, False: disabled
+  decryptor_web_companion_option: True
+
+
+logging:
+  #Sets logging format option
+  # Option 1 = Default
+  # Options:
+  #   1 - '%(asctime)s|%(levelname)s|%(message)s (Module:%(module)s, Function:%(funcName)s,  Line:%(lineno)s)',datefmt='%Y-%m-%d %H:%M:%S'
+  #   2 - '%(message)s'
+  #   '%(asctime)s|%(levelname)s|%(funcName)s|%(message)s' - Manual Entry
+  logging_format_option: 1
+  # Sets handler option
+  # Option 1 = Default
+  #   1 - Both
+  #   2 - File Handler
+  #   3 - Console Handler
+  logging_handler_option: 1
+  # Sets backup copy count
+  logging_backup_log_count: 3
+  # Sets logging level
+  # Configure based on the LoggingHandlerOption option
+  # Options:
+  #   - NOTSET
+  #   - DEBUG
+  #   - INFO
+  #   - WARNING
+  #   - ERROR
+  #   - CRITICAL
+  file_log_level: DEBUG
+  console_log_level: INFO
+  # Sets max log size in bytes
+  # Used for issue tracking and program log
+  # Default 1000000 Byltes (1 Megabyte)
+  max_log_file_size: 1000000
