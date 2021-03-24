@@ -223,7 +223,7 @@ def populate_startup_variables():
         preset_root_directory = os.path.dirname(os.path.realpath(__file__))
 
         # Sets the program save path to the script directory.
-        save_log_path = os.path.abspath(f'{preset_root_directory}\logs')
+        save_log_path = os.path.abspath(f'{preset_root_directory}\\logs')
         
         # Checks if the save_log_path exists and if not it will be created.
         # This is required because the logs do not save to the root directory.
@@ -510,7 +510,7 @@ def main():
     time.sleep(monitor_sleep)
 
     # Setting the hard-coded info tracker log path.
-    path_software_matched_log_tracker = os.path.abspath(f'{save_log_path}\{tracker_log_name}')
+    path_software_matched_log_tracker = os.path.abspath(f'{save_log_path}\\{tracker_log_name}')
 
     # Loops through each monitored software settings entry.
     for software_settings in monitored_software_settings:
