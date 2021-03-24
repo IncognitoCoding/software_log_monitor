@@ -67,7 +67,7 @@ email:
 
 companion_programs:
   # Allows a decryption web option for encrypted info
-  # URL: http://127.0.0.1:5000/
+  # URL: http://127.0.0.1:5000/ or http://<host ip>:5000/
   # True: enabled, False: disabled
   decryptor_web_companion_option: True
 

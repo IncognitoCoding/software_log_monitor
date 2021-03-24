@@ -122,7 +122,7 @@ def start_decryptor_site(encryption_password, random_salt, debug_option):
 
     # Environment Options.
     DEBUG = debug_option
-
+    
     http_info_decryptor = Flask(__name__)
 
     class ReusableForm(Form):
@@ -143,7 +143,7 @@ def start_decryptor_site(encryption_password, random_salt, debug_option):
             # Returns values to web.
             return render_template('decrypt.html', processed_text=processed_text)
 
-    http_info_decryptor.run()
+    http_info_decryptor.run(host='0.0.0.0')
 
 
 def main(encryption_password, random_salt, debug_option):
