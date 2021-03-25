@@ -571,7 +571,7 @@ def main():
 
                         # Calls function to send the email.
                         # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
-                        send_email(email_settings, f'Software Log Discovery Event. Search Entry = ({searched_entry})', matched_info, root_logger)  
+                        send_email(email_settings, f'Software Log Discovery Event for {name_monitoring_software}. Search Entry = ({searched_entry})', matched_info, root_logger)  
                     
                     else:
                         
@@ -656,7 +656,7 @@ def main():
 
                                     # Calls function to send the email.
                                     # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
-                                    send_email(email_settings, f'Software Log Post-Processing Event. Search Entry = ({searched_entry})', matched_info, root_logger)  
+                                    send_email(email_settings, f'Software Log Post-Processing Event for {name_monitoring_software}. Search Entry = ({searched_entry})', matched_info, root_logger)  
 
                                     # Custom log level that has been created for alerts. (39 = ALERT)
                                     root_logger.info('Email sent and the post-processing event ran')
