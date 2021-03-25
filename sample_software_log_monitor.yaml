@@ -101,5 +101,5 @@ logging:
   console_log_level: INFO
   # Sets max log size in bytes
   # Used for issue tracking and program log
-  # Default 1000000 Byltes (1 Megabyte)
+  # Default 1000000 Bytes (1 Megabyte)
   max_log_file_size: 1000000
