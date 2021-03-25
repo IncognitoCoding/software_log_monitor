@@ -40,8 +40,6 @@ software:
 
 
 email:
-  # True or False
-  enable: True
   smtp: smtp.yourdomain.com
   # True or False
   authentication_required: False
