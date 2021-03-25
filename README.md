@@ -6,7 +6,7 @@ software_log_monitor is a highly customizable log monitoring program. It is desi
 * Search for multiple key search words or phrases.
 * Email supports standard port 25 or TLS.
 * Customizable program log output and debug options.
-* Log check setting.
+* Log check cycle setting.
 * Encrypt email messages.
 * Message decryption web GUI companion.
 * Post-processing option when a log entry is discovered.
