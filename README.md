@@ -29,7 +29,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
     Step 1: For the program to recognize the YAML file, you must copy the sample_software_log_monitor.yaml file and rename it to software_log_monitor.yaml 
     Step 2: Update the YAML file with your configuration.
     Step 3: Run the program to make sure your settings are entered correctly. 
-    Step 4: Depending on your operating system (Linux or Windows), you can set up the program to run automatically, which is recommended.
+    Step 4: Depending on your operating system (Linux Ubuntu or Windows), you can set up the program to run automatically, which is recommended. Other Linux versions will work but are not explained below. 
        Step 4.1 (Optional - Windows): Setup a scheduled task to run the program on startup.
                 Create a service account and a new scheduled task using these settings. 
                     - Run weather user is logged on or not
@@ -39,7 +39,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
                     - Set action to start program
                     - Program/Script: python
                     - Arguments: "C:\<path to the program>\software_log_monitor.py"
-       Step 4.2 (Optional - Linux): Set up a service to run the program.
+       Step 4.2 (Optional - Linux Ubuntu): Set up a service to run the program.
             Step 4.2.1:  Create a new service file.
                 Run: cd /lib/systemd/system
                 Run: sudo nano software_log_monitor.service
