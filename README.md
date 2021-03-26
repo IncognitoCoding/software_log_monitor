@@ -1,6 +1,9 @@
 # Overview:
 software_log_monitor is a highly customizable log monitoring program. It is designed to be simple to use but very effective in monitoring log files. All configuration is set up through a simple to use YAML configuration file, and you can add as many logs as you would like to monitor. This program's key advantage is its message encryption option to protect any sensitive information from being read. A web GUI companion program is offered to allow the ability to decrypt the message. Because this option is not SSL, you should run this program on a VLAN that cannot be snooped with Wireshark. If you have ever wanted to perform another action once a log entry is discovered, this program offers post-processing per software log entry and offers to search the output.
 
+If you use docker and would like to centralize your docker logs to be monitored, check out [docker_log_redirect] (https://github.com/IncognitoCoding/docker_log_redirect)
+
+
 ## Program Highlights:
 * Dynamically add as many log files as you would like to monitor.
 * Search for multiple key search words or phrases.
@@ -14,14 +17,14 @@ software_log_monitor is a highly customizable log monitoring program. It is desi
 * The YAML file allows updating on the fly, and each loop will use the updated YAML configuration.
 
 ## Setup Recommendations & Setup Hints:
-Each log file is considered a separate software entry in the program. You may use the same log file in multiple software entries. A reason this would work is grouping error/warning into a group and info into another group. The email subject line will list the search words, so separating may help when identifying what alerts are being sent.
+Each log file is considered a separate software entry in the program. You may use the same log file in multiple software entries. A reason this would work is grouping error/warning into a group and info into another group. The email subject line will list the search words, so separating may help identify what alerts are being sent.
 
 Each software entry must contain the required YAML keys. Copy the previous sample section when adding a new software entry and change the last number.
 
 The sample file is designed to show you two different software entry examples to show what options you can use. The main thing to take away from the sample_software_log_monitor.yaml is that the "name and url_log_path" are a single entry option, and "info_search, post_processing_args, and post_processing_info_search" can be single entry or multiple entries.
 
 # Program Prerequisites:
-Use the requirements.txt file to make sure you have all the required prerequisites. This program will use an additional package called ictoolkit created by IncognitoCoding for most general function calls. Future programs will utilize the similar ictools package. Feel free to use this package for your own Python programming.
+Use the requirements.txt file to make sure you have all the required prerequisites. This program will use an additional package called ictoolkit created by IncognitoCoding for most general function calls. Future programs will utilize the similar ictoolkit package. Feel free to use this package for your Python programming.
 
 ## How to Use:
 The sample YAML configuration file has plenty of notes to help explain the setup process. The steps below will explain what needs to be done to get the program running.
