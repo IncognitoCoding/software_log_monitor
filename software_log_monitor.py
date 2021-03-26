@@ -44,7 +44,7 @@ __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
 __credits__ = ['IncognitoCoding', 'Monoloch']
 __license__ = 'GPL'
-__version__ = '0.1'
+__version__ = '0.2'
 __maintainer__ = 'IncognitoCoding'
 __status__ = 'Development'
 
@@ -308,12 +308,15 @@ def populate_startup_variables():
         logging_handler_option = returned_yaml_read_config.get('logging', {}).get('logging_handler_option')
         # Sets the backup count.
         logging_backup_log_count = returned_yaml_read_config.get('logging', {}).get('logging_backup_log_count')
+        # Sets the rollover option.
+        rollover = returned_yaml_read_config.get('logging', {}).get('rollover')
 
         # Validates the YAML value.
         yaml_value_validation('file_log_level', file_log_level, str)
         yaml_value_validation('console_log_level', console_log_level, str)
         yaml_value_validation('logging_handler_option', logging_handler_option, int)
         yaml_value_validation('logging_backup_log_count', logging_backup_log_count, int)
+        yaml_value_validation('rollover', rollover, bool)
 
         # Sets LoggingFormatOption entry type based on input.
         # Checks if user entered a custom format or selected a pre-configured option.
@@ -329,7 +332,7 @@ def populate_startup_variables():
             logging_format_option = int(logging_format_option)
             
         # Calls function to setup logging and create the root logger.
-        root_logger = create_logger(save_log_path, logger_name, log_name, max_log_file_size, file_log_level, console_log_level, logging_backup_log_count, logging_format_option, logging_handler_option)
+        root_logger = create_logger(save_log_path, logger_name, log_name, max_log_file_size, file_log_level, console_log_level, logging_backup_log_count, logging_format_option, logging_handler_option, rollover)
         
         # Sets the tracker_logger to the startup_variable dictionary.
         startup_variables['root_logger'] = root_logger
@@ -354,9 +357,11 @@ def populate_startup_variables():
         logging_format_option = 2
         # Sets handler option.
         logging_handler_option = 2
+        # Sets rollover
+        rollover = False
 
         # Calls function to setup logging and create the tracker logger.
-        tracker_logger = create_logger(save_log_path, logger_name, tracker_log_name, max_log_file_size, file_log_level, console_log_level, logging_backup_log_count, logging_format_option, logging_handler_option)
+        tracker_logger = create_logger(save_log_path, logger_name, tracker_log_name, max_log_file_size, file_log_level, console_log_level, logging_backup_log_count, logging_format_option, logging_handler_option, rollover)
 
         # Sets the trackerLoggerName to the startup_variable dictionary.
         startup_variables['tracker_log_name'] = tracker_log_name

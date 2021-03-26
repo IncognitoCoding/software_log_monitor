@@ -101,3 +101,5 @@ logging:
   # Used for issue tracking and program log
   # Default 1000000 Bytes (1 Megabyte)
   max_log_file_size: 1000000
+  # Rolling over log file on startup
+  rollover: False
