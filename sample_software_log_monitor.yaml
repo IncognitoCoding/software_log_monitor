@@ -53,9 +53,6 @@ email:
   # Allows the alert message to be encrypted
   # True: enabled, False: disabled
   send_message_encrypted: True
-  # Sends email alerts with program crashes
-  # True: enabled, False: disabled
-  alert_program_errors: True
   # These settings are required to send an encrypted email message
   # Password input to be used with the random salt
   message_encryption_password: ChangePassword1
