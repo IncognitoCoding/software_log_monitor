@@ -728,14 +728,6 @@ def main():
 
             exit()
 
-    # Closes all the handlers (stream/console) for root_logger. Required when looping.
-    while root_logger.hasHandlers():
-        root_logger.removeHandler(root_logger.handlers[0])
-
-    # Closes all the handlers (stream/console) for tracker_logger. Required when looping.
-    while tracker_logger.hasHandlers():
-        tracker_logger.removeHandler(tracker_logger.handlers[0])
-
 
 # Checks that this is the main program initiates the classes to start the functions.
 if __name__ == "__main__":
