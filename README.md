@@ -21,7 +21,7 @@ Each software entry must contain the required YAML keys. Copy the previous sampl
 The sample file is designed to show you two different software entry examples to show what options you can use. The main thing to take away from the sample_software_log_monitor.yaml is that the "name and url_log_path" are a single entry option, and "info_search, post_processing_args, and post_processing_info_search" can be single entry or multiple entries.
 
 # Program Prerequisites:
-Use the requirements.txt file to make sure you have all the required prerequisites. This program will use an additional package called ictools created by IncognitoCoding for most general function calls. Future programs will utilize the similar ictools package. Feel free to use this package for your own Python programming.
+Use the requirements.txt file to make sure you have all the required prerequisites. This program will use an additional package called ictoolkit created by IncognitoCoding for most general function calls. Future programs will utilize the similar ictools package. Feel free to use this package for your own Python programming.
 
 ## How to Use:
 The sample YAML configuration file has plenty of notes to help explain the setup process. The steps below will explain what needs to be done to get the program running.
