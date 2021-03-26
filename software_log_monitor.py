@@ -29,16 +29,16 @@ import socket
 from functools import partial
 
 # Own modules
-from ictools.directors.log_director import create_logger
-from ictools.directors.file_director import file_exist_check
-from ictools.directors.file_director import search_file
-from ictools.directors.file_director import search_multiple_files
-from ictools.directors.email_director import send_email
-from ictools.directors.yaml_director import read_yaml_config, yaml_value_validation
-from ictools.directors.subprocess_director import start_subprocess
-from ictools.directors.thread_director import start_function_thread
+from ictoolkit.directors.log_director import create_logger
+from ictoolkit.directors.file_director import file_exist_check
+from ictoolkit.directors.file_director import search_file
+from ictoolkit.directors.file_director import search_multiple_files
+from ictoolkit.directors.email_director import send_email
+from ictoolkit.directors.yaml_director import read_yaml_config, yaml_value_validation
+from ictoolkit.directors.subprocess_director import start_subprocess
+from ictoolkit.directors.thread_director import start_function_thread
 from companion.decryptor.http_info_decryptor import start_decryptor_site
-from ictools.directors.dict_director import remove_duplicate_dict_values_in_list
+from ictoolkit.directors.dict_director import remove_duplicate_dict_values_in_list
 
 __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
