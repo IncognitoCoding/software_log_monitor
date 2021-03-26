@@ -139,11 +139,12 @@ def merge_software_monitored_settings(config_yaml_read):
     Returns:
         list: A list of individual software monitored settings. Each line represents an individual software. The list is returned with individual list elements. Each list element 
               will contain the software name, software URL log path, and "software log search info. 
-              Element Example: <[['<Software1 Log Path', 'Software1 Search Log String'], ['<Software2 Log Path', 'Software2 Search Log String']]>
+              Return Example: [['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None], ['Radarr', '\\\\mypath\\radarr sample.log', '|Error|', None, None]]
     """
 
     # Assigns the software path and software search string to create a multidimensional list.
-    # Placement Example: ['<software log path>', '<software log search string>']
+    # Placement Example: [name, url_log_path, info_search, post_processing_args, post_processing_info_search]
+    # Return Example: ['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None]
     software_monitored_settings = []
 
     # Finds all software monitoring entries in the YAML configuration and loops through each one to pull the configuration settings.
@@ -167,7 +168,6 @@ def merge_software_monitored_settings(config_yaml_read):
         yaml_value_validation(f'{key} nested key \'url_log_path\'', url_log_path, str)
         # Local YAML value validation because multiple types (str or list) are possible.
         if not info_search:
-            print('here')
             raise ValueError(f'No value has been entered for \'{key}\' nested key \'info_search\' in the YAML file, Originating error on line {traceback.extract_stack()[-1].lineno} in <{__name__}>')
         if not isinstance(info_search, list) and not isinstance(info_search, str):
             raise ValueError(f'Incorrect \'{key}\' nested key \'info_search\' YAML value. <class \'str\' or class \'list\'> is required, Originating error on line {traceback.extract_stack()[-1].lineno} in <{__name__}>')
@@ -183,7 +183,17 @@ def populate_startup_variables():
     This function populates all hard-coded and yaml-configuration variables into a dictionary that is pulled into the main function.
     YAML entry validation checks are performed within this function. No manual configurations are setup within the program. All user 
     settings are completed in the "software_log_monitor.yaml" configuration file.
-
+    
+    Raises:
+        ValueError: The 'general' key is missing from the YAML file
+        ValueError: The 'software' key is missing from the YAML file
+        ValueError: The 'email' key is missing from the YAML file
+        ValueError: The 'companion_programs' key is missing from the YAML file
+        ValueError: The 'logging' key is missing from the YAML file
+        ValueError: NameError
+        ValueError: KeyError
+        ValueError: General Error
+        
     Returns:
         dict: A dictionary of all startup variables required for the program to run. These startup variables consist of pre-configured and YAML configuration.
     """
@@ -356,7 +366,6 @@ def populate_startup_variables():
         ##############################################################################
 
         ##############################################################################
-
         # Sets email values.
         smtp = returned_yaml_read_config.get('email', {}).get('smtp')
         authentication_required = returned_yaml_read_config.get('email', {}).get('authentication_required')
@@ -409,7 +418,7 @@ def populate_startup_variables():
 
         ##############################################################################
         # Gets the monitoring software settings by calling the function and merging the user-selected software log path and software log search string.
-        # Return Example: <[['<Software1 Log Path', 'Software1 Search Log String'], ['<Software2 Log Path', 'Software2 Search Log String']]>
+        # Return Example: [['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None], ['Radarr', '\\\\mypath\\radarr sample.log', '|Error|', None, None]]
         monitored_software_settings = merge_software_monitored_settings(returned_yaml_read_config)
         ##############################################################################
 
@@ -516,7 +525,8 @@ def main():
     for software_settings in monitored_software_settings:
 
         # Sets easier to read variables from list.
-        # Entry Example: ['MySoftware', 'software sample log.txt', '|Error|', 'python', '\\mypath\\software.py']
+        # Entry Example1: ['MySoftware', 'software sample log.txt', '|Error|', 'python', '\\mypath\\software.py']
+        # Entry Example2: ['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None]
         name_monitoring_software = software_settings[0]
         file_monitoring_software = os.path.abspath(software_settings[1])
         monitored_software_search_info = software_settings[2]
@@ -576,7 +586,7 @@ def main():
                     else:
                         
                         # Custom log level that has been created for alerts. (39 = ALERT)
-                        root_logger.info('Email alerting is disabled. The foud log event is not be sent')
+                        root_logger.info('Email alerting is disabled. The found log event is not be sent')
                 
                 ############################################################
                 ########################Post-Processing#####################
@@ -692,6 +702,7 @@ def main():
             # System exit print output for general setup
             print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|{err}')
             print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Info|See log for more details')
+            
             root_logger.error(f'{err}')
             
             # Checking if the user chooses not to send program errors to email.
@@ -703,7 +714,7 @@ def main():
                     
                     # Calls function to send the email.
                     # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
-                    send_email(email_settings, "Media Server Program Issue Occured", f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|Exception Thrown|{err}', root_logger)
+                    send_email(email_settings, "Software Log Monitor Program Issue Occured", f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|Exception Thrown|{err}', root_logger)
 
                 except Exception as err:
                     root_logger.error(f'{err}')
