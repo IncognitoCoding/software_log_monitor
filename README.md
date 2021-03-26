@@ -46,6 +46,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
             Step 4.2.1:  Create a new service file.
                 Run: cd /lib/systemd/system
                 Run: sudo nano software_log_monitor.service
+                    Note: The service account needs to have docker socket access. The root user is added below as an example.
                     Paste:
                         Description=software_log_monitor
                         After=multi-user.target
