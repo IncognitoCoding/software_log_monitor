@@ -44,7 +44,7 @@ __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
 __credits__ = ['IncognitoCoding', 'Monoloch']
 __license__ = 'GPL'
-__version__ = '0.2'
+__version__ = '0.3'
 __maintainer__ = 'IncognitoCoding'
 __status__ = 'Development'
 
