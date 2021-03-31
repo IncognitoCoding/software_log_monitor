@@ -23,7 +23,7 @@ Each log file is considered a separate software entry in the program. You may us
 
 Each software entry must contain the required YAML keys. Copy the previous sample section when adding a new software entry and change the last number.
 
-The sample file is designed to show you two different software entry examples to show what options you can use. The main thing to take away from the sample_software_log_monitor.yaml is that the "name and url_log_path" are a single entry option, and "info_search, post_processing_args, and post_processing_info_search" can be single entry or multiple entries.
+The sample file is designed to show you two different software entry examples to show what options you can use. The main thing to take away from the sample_software_log_monitor.yaml is that the "name, url_log_path, email_subject_line, post_processing_send_info, and post_processing_email_subject_line" are a single entry option, and "info_search, post_processing_args, and post_processing_info_search" can be single entry or multiple entries.
 
 Post-processing offers the ability to add additional functionality when a log entry gets discovered. The matched log entry can be passed as the last argument if the post-processing program/script accepts raw arguments without an options flag. The matched log can be used as a string in the program/script to perform a task based on that entry. You may find this helpful if a specific entry requires a task to be performed, such as deleting a file once a log entry gets discovered.
 
