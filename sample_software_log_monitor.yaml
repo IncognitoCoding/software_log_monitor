@@ -13,13 +13,13 @@ software:
     # Add the software name
     name: 'MySoftware1'
     url_log_path: '\\mypath\sample1.log'
-    # Add search info. List format for  multiple entries.
+    # Add search info. List format for multiple entries.
     info_search:
       - '|Error|'
       - 'Warning'
     # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
     email_subject_line:
-    # (Optional): Add post processing args, such as running a post processing program. List format for  multiple entries.
+    # (Optional): Add post processing args, such as running a post processing program. List format for multiple entries.
     post_processing_args: 'ipconfig'
     # (Optional): Add post processing output search. List format for multiple entries.
     post_processing_info_search: ''
@@ -29,11 +29,11 @@ software:
     # Add the software name
     name: 'MySoftware2'
     url_log_path: '\\mypath\sample2.log'
-    # Add search info. List format for  multiple entries.
+    # Add search info. List format for multiple entries.
     info_search: '|Error|'
     # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
     email_subject_line:
-    # (Optional): Add post processing args, such as running a post processing program. List format for  multiple entries.
+    # (Optional): Add post processing args, such as running a post processing program. List format for multiple entries.
     post_processing_args:
       - 'python'
       - '\\mypath\script.py'
