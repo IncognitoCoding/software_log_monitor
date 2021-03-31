@@ -44,7 +44,7 @@ __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
 __credits__ = ['IncognitoCoding', 'Monoloch']
 __license__ = 'GPL'
-__version__ = '0.3'
+__version__ = '0.4'
 __maintainer__ = 'IncognitoCoding'
 __status__ = 'Development'
 
@@ -158,6 +158,7 @@ def merge_software_monitored_settings(config_yaml_read):
             info_search = monitored_software.get('info_search')
             email_subject_line = monitored_software.get('email_subject_line')
             post_processing_args = monitored_software.get('post_processing_args')
+            post_processing_send_info = monitored_software.get('post_processing_send_info')
             post_processing_info_search = monitored_software.get('post_processing_info_search')
             post_processing_email_subject_line = monitored_software.get('post_processing_email_subject_line')
 
@@ -175,7 +176,7 @@ def merge_software_monitored_settings(config_yaml_read):
             raise ValueError(f'Incorrect \'{key}\' nested key \'info_search\' YAML value. <class \'str\' or class \'list\'> is required, Originating error on line {traceback.extract_stack()[-1].lineno} in <{__name__}>')
         
         # Takes the software path and software search string and creates a single multidimensional list entry.
-        software_monitored_settings.append([name, url_log_path, info_search, email_subject_line, post_processing_args, post_processing_info_search, post_processing_email_subject_line])
+        software_monitored_settings.append([name, url_log_path, info_search, email_subject_line, post_processing_args, post_processing_send_info, post_processing_info_search, post_processing_email_subject_line])
 
     return software_monitored_settings
 
@@ -532,15 +533,16 @@ def main():
     for software_settings in monitored_software_settings:
 
         # Sets easier to read variables from list.
-        # Entry Example1: ['MySoftware', 'software sample log.txt', '|Error|', 'Error Detected in MySoftware', 'python', '\\mypath\\software.py', 'Software.py Ran Successful']
-        # Entry Example2: ['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None, None, None]
+        # Entry Example1: ['MySoftware', 'software sample log.txt', '|Error|', 'Error Detected in MySoftware', '\\mypath\\software.py', True, 'Sample Search' , 'Software.py Ran Successful']
+        # Entry Example2: ['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None, None, None, None]
         name_monitoring_software = software_settings[0]
         file_monitoring_software = os.path.abspath(software_settings[1])
         monitored_software_search_info = software_settings[2]
         email_subject_line = software_settings[3]
         post_processing_args = software_settings[4]
-        post_processing_info_search = software_settings[5]
-        post_processing_email_subject_line = software_settings[6]
+        post_processing_send_info = software_settings[5]
+        post_processing_info_search = software_settings[6]
+        post_processing_email_subject_line = software_settings[7]
 
         # Sets the basename for cleaner logging output.
         basename_monitoring_software = os.path.basename(file_monitoring_software)
@@ -609,6 +611,29 @@ def main():
 
                     # Custom log level that has been created for alerts. (39 = ALERT)
                     root_logger.log(39,f'The info is newly discovered. Post-processing task enabled. Please wait while the process completes...')
+                    
+                    # Checks if matched info should be forward as part of the post-processing arguments.
+                    if post_processing_send_info == True:
+                        
+                        root_logger.debug(f'The user chooses to forward matched info as post-processing arguments')
+
+                        # Checks if post_process_args is a string or list to know how to add the matched info.
+                        if isinstance(post_processing_args, str):
+
+                            # Creates a list with the users post_processing_args with the matched info.
+                            post_processing_args = [post_processing_args, matched_info]
+
+                            root_logger.debug(f'The user sent only a single post-processing argument. The program is converting the argument variable to a list and adding the matched info. post_processing_args = {post_processing_args}')
+
+                        elif isinstance(post_processing_args, list):
+
+                            # Adds matched info to the users post_processing_args
+                            post_processing_args.append(matched_info)
+
+                            root_logger.debug(f'The user sent multiple post-processing arguments. The program is adding the matched info to the existing list. post_processing_args = {post_processing_args}')
+                            
+                    else:
+                        root_logger.debug(f'The user did not choose to forward matched info as post-processing arguments')
 
                     # Calls function to perform post processing task.
                     post_processing_output = start_subprocess(post_processing_args)

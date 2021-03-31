@@ -21,6 +21,8 @@ software:
     email_subject_line:
     # (Optional): Add post processing args, such as running a post processing program. List format for multiple entries.
     post_processing_args: 'ipconfig'
+    # (Optional): Send matched info as last argument. The program or script must accept raw aguments with no options requirement. True or False
+    post_processing_send_info: False
     # (Optional): Add post processing output search. List format for multiple entries.
     post_processing_info_search: ''
     # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
@@ -37,7 +39,9 @@ software:
     post_processing_args:
       - 'python'
       - '\\mypath\script.py'
-     # (Optional): Add post processing output search. List format for multiple entries.
+    # (Optional): Send matched info as last argument. The program or script must accept raw aguments with no options requirement. True or False
+    post_processing_send_info: True
+    # (Optional): Add post processing output search. List format for multiple entries.
     post_processing_info_search: 
       - 'Output Entry 1'
       - 'Output Entry 2'
