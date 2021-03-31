@@ -156,14 +156,16 @@ def merge_software_monitored_settings(config_yaml_read):
             name = monitored_software.get('name')
             url_log_path = monitored_software.get('url_log_path')
             info_search = monitored_software.get('info_search')
+            email_subject_line = monitored_software.get('email_subject_line')
             post_processing_args = monitored_software.get('post_processing_args')
             post_processing_info_search = monitored_software.get('post_processing_info_search')
+            post_processing_email_subject_line = monitored_software.get('post_processing_email_subject_line')
 
         except Exception as err:
             raise ValueError(f'The YAML software entry section is missing the required keys. Please verify you have set all required keys and try again, Originating error on line {format(sys.exc_info()[-1].tb_lineno)} in <{__name__}>')
 
         # Validates the YAML value.
-        # Post-processing values are not required because these are optional settings.
+        # Email subject and Post-processing values are not required because these are optional settings.
         yaml_value_validation(f'{key} nested key \'name\'', name, str)
         yaml_value_validation(f'{key} nested key \'url_log_path\'', url_log_path, str)
         # Local YAML value validation because multiple types (str or list) are possible.
@@ -173,7 +175,7 @@ def merge_software_monitored_settings(config_yaml_read):
             raise ValueError(f'Incorrect \'{key}\' nested key \'info_search\' YAML value. <class \'str\' or class \'list\'> is required, Originating error on line {traceback.extract_stack()[-1].lineno} in <{__name__}>')
         
         # Takes the software path and software search string and creates a single multidimensional list entry.
-        software_monitored_settings.append([name, url_log_path, info_search, post_processing_args, post_processing_info_search])
+        software_monitored_settings.append([name, url_log_path, info_search, email_subject_line, post_processing_args, post_processing_info_search, post_processing_email_subject_line])
 
     return software_monitored_settings
 
@@ -530,13 +532,15 @@ def main():
     for software_settings in monitored_software_settings:
 
         # Sets easier to read variables from list.
-        # Entry Example1: ['MySoftware', 'software sample log.txt', '|Error|', 'python', '\\mypath\\software.py']
-        # Entry Example2: ['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None]
+        # Entry Example1: ['MySoftware', 'software sample log.txt', '|Error|', 'Error Detected in MySoftware', 'python', '\\mypath\\software.py', 'Software.py Ran Successful']
+        # Entry Example2: ['Sonarr', '\\\\mypath\\sonarr sample.log', ['|Error|', 'Warning'], None, None, None, None]
         name_monitoring_software = software_settings[0]
         file_monitoring_software = os.path.abspath(software_settings[1])
         monitored_software_search_info = software_settings[2]
-        post_processing_args = software_settings[3]
-        post_processing_info_search = software_settings[4]
+        email_subject_line = software_settings[3]
+        post_processing_args = software_settings[4]
+        post_processing_info_search = software_settings[5]
+        post_processing_email_subject_line = software_settings[6]
 
         # Sets the basename for cleaner logging output.
         basename_monitoring_software = os.path.basename(file_monitoring_software)
@@ -584,9 +588,13 @@ def main():
                         # Custom log level that has been created for alerts. (39 = ALERT)
                         root_logger.log(39,f'Sending email. Entry {index + 1} of {total_info_entries}')
 
+                        # Sets the default email subject line if one did not get provided in the YAML.
+                        if email_subject_line == None:
+                            email_subject_line = f'Software Log Discovery Event for {name_monitoring_software}. Search Entry = ({searched_entry})'
+
                         # Calls function to send the email.
                         # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
-                        send_email(email_settings, f'Software Log Discovery Event for {name_monitoring_software}. Search Entry = ({searched_entry})', matched_info, root_logger)  
+                        send_email(email_settings, email_subject_line, matched_info, root_logger)  
                     
                     else:
                         
@@ -627,7 +635,7 @@ def main():
                                         root_logger.info(f'Post-processing search value \"{post_output_entry}\" found. Adding the value to the list \"matched_entries\"')
                                         
                                         # Adds found line and search value to list.
-                                        matched_entries.append({'search_entry': search_value, 'found_entry': post_output_entry})
+                                        matched_entries.append({'search_entry': post_processing_info_search, 'found_entry': post_output_entry})
 
                                 elif isinstance(post_processing_info_search, list):
 
@@ -669,9 +677,13 @@ def main():
                                     # Custom log level that has been created for alerts. (39 = ALERT)
                                     root_logger.log(39,f'Sending email. Entry {index + 1} of {total_info_entries}')
 
+                                    # Sets the default email subject line if one did not get provided in the YAML.
+                                    if post_processing_email_subject_line == None:
+                                        post_processing_email_subject_line = f'Software Log Post-Processing Event for {name_monitoring_software}. Search Entry = ({searched_entry})'
+                                        
                                     # Calls function to send the email.
                                     # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
-                                    send_email(email_settings, f'Software Log Post-Processing Event for {name_monitoring_software}. Search Entry = ({searched_entry})', matched_info, root_logger)  
+                                    send_email(email_settings, post_processing_email_subject_line, matched_info, root_logger)  
 
                                     # Custom log level that has been created for alerts. (39 = ALERT)
                                     root_logger.info('Email sent and the post-processing event ran')

@@ -17,24 +17,32 @@ software:
     info_search:
       - '|Error|'
       - 'Warning'
+    # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
+    email_subject_line:
     # (Optional): Add post processing args, such as running a post processing program. List format for  multiple entries.
     post_processing_args: 'ipconfig'
-    # (Optional): Add post processing output search. List format for  multiple entries.
+    # (Optional): Add post processing output search. List format for multiple entries.
     post_processing_info_search: ''
+    # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
+    post_processing_email_subject_line:
   software_entry2:
     # Add the software name
     name: 'MySoftware2'
     url_log_path: '\\mypath\sample2.log'
     # Add search info. List format for  multiple entries.
     info_search: '|Error|'
+    # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
+    email_subject_line:
     # (Optional): Add post processing args, such as running a post processing program. List format for  multiple entries.
     post_processing_args:
       - 'python'
       - '\\mypath\script.py'
-     # (Optional): Add post processing output search. List format for  multiple entries.
+     # (Optional): Add post processing output search. List format for multiple entries.
     post_processing_info_search: 
       - 'Output Entry 1'
       - 'Output Entry 2'
+    # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
+    post_processing_email_subject_line:
   # Add any additional software entries below and increase the nubmer by 1
   # Requires: name, url_log_path, and info_search
 
