@@ -19,7 +19,7 @@ If you use docker and would like to centralize your docker logs to be monitored,
 * The YAML file allows updating on the fly, and each loop will use the updated YAML configuration.
 
 ## Setup Recommendations & Setup Hints:
-Each log file is considered a separate software entry in the program. You may use the same log file in multiple software entries. A reason this would work is grouping error/warning into a group and info into another group. The email subject line will list the search words, so separating may help identify what alerts are being sent.
+Each log file is considered a separate software entry in the program. You may use the same log file in multiple software entries. A reason this would work is grouping error/warning into a group and info into another group. The email subject line will list the search words, so separating may help identify what alerts are being sent. Add more descriptive keyword entries above the less descriptive entries. The program works top-down, so less descriptive entries will skip if matched on a more descriptive entry.
 
 Each software entry must contain the required YAML keys. Copy the previous sample section when adding a new software entry and change the last number.
 
