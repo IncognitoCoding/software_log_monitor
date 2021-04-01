@@ -48,7 +48,7 @@ software:
     # (Optional): Add a customized email subject line per entry. The default subject line will include the search info.
     post_processing_email_subject_line:
   # Add any additional software entries below and increase the nubmer by 1
-  # Requires: name, url_log_path, and info_search
+  # Requires all sample keys.
 
 
 email:
