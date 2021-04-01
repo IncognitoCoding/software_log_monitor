@@ -44,7 +44,7 @@ __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
 __credits__ = ['IncognitoCoding', 'Monoloch']
 __license__ = 'GPL'
-__version__ = '0.5'
+__version__ = '0.6'
 __maintainer__ = 'IncognitoCoding'
 __status__ = 'Development'
 
@@ -74,9 +74,9 @@ def software_log_info_check(info_tracking_file_path, monitored_software_file_pat
     # Calling Example: search_file(<log file>, <search string>, <configured logger>)
     # Return Example: <list with info> or <none>
     found_software_search_entries = search_file(monitored_software_file_path, monitored_software_search_info, root_logger)
-    
+
     # Checks if search found the info in the log file.
-    if found_software_search_entries != "None": 
+    if found_software_search_entries != None: 
         
         # Sets count on matched info entries. Each discovered entry will be one per line.
         count_matched_info = len(found_software_search_entries)
