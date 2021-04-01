@@ -44,7 +44,7 @@ __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
 __credits__ = ['IncognitoCoding', 'Monoloch']
 __license__ = 'GPL'
-__version__ = '0.4'
+__version__ = '0.5'
 __maintainer__ = 'IncognitoCoding'
 __status__ = 'Development'
 
@@ -75,16 +75,16 @@ def software_log_info_check(info_tracking_file_path, monitored_software_file_pat
     # Return Example: <list with info> or <none>
     found_software_search_entries = search_file(monitored_software_file_path, monitored_software_search_info, root_logger)
     
-    # Sets count on matched info entries. Each discovered entry will be one per line.
-    count_mached_info = len(found_software_search_entries)
-
     # Checks if search found the info in the log file.
     if found_software_search_entries != "None": 
+        
+        # Sets count on matched info entries. Each discovered entry will be one per line.
+        count_matched_info = len(found_software_search_entries)
         
         # Sets the basename variable for logging output only.
         basename_info_tracking_path = os.path.basename(info_tracking_file_path)
 
-        root_logger.info(f'Searching info \"{monitored_software_search_info}\" found {count_mached_info} matches in {monitored_software_name}\'s log file \"{basename_info_tracking_path}\"')
+        root_logger.info(f'Searching info \"{monitored_software_search_info}\" found {count_matched_info} matches in {monitored_software_name}\'s log file \"{basename_info_tracking_path}\"')
         root_logger.debug('Looping through each discovered match entry and comparing against the info tracker logs.')
 
         # Loops through each found info entry. Found info entries will be validated against the tracker log. If it does not exist, the info entry will be added to a list.
@@ -93,7 +93,7 @@ def software_log_info_check(info_tracking_file_path, monitored_software_file_pat
             # Sets the found_entry value to a variable. This is done to decrease the code complexity.
             found_info = info.get('found_entry')
 
-            root_logger.debug(f'Looping through matched info {index + 1} of {count_mached_info}')
+            root_logger.debug(f'Looping through matched info {index + 1} of {count_matched_info}')
             root_logger.info(f'Checking the info tracker file \"{basename_info_tracking_path}\" to find previously discovered info \"{found_info}\"')
             
             # Gets all tracker log files, including backups.
