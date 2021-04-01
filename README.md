@@ -61,7 +61,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
                         User=root
                         WorkingDirectory=/<path to program>/software_log_monitor
                         ExecStart=/usr/bin/python3  /<path to program>/software_log_monitor/software_log_monitor.py                                                         
-                        Restart=always
+                        Restart=no
 
                         [Install]
                         WantedBy=multi-user.target
