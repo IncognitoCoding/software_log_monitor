@@ -38,7 +38,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
     Step 3: Run the program to make sure your settings are entered correctly. 
     Step 4: Depending on your operating system (Linux Ubuntu or Windows), you can set up the program to run automatically, which is recommended. Other Linux versions will work but are not explained below. 
        Step 4.1 (Optional - Windows): Setup a scheduled task to run the program on startup.
-                Create a service account and a new scheduled task using these settings. 
+                Create a service account and a new scheduled task using these settings. A delayed start may be required.
                     - Run weather user is logged on or not
                     - Run with highest privileges
                     - Run hidden
@@ -50,7 +50,8 @@ The sample YAML configuration file has plenty of notes to help explain the setup
             Step 4.2.1:  Create a new service file.
                 Run: cd /lib/systemd/system
                 Run: sudo nano software_log_monitor.service
-                    Note: The service account needs to have docker socket access. The root user is added below as an example.
+                    Note1: The service account needs to have docker socket access. The root user is added below as an example.
+                    Note2: A delayed start can help ensure all processes start before monitoring starts. Your "TimeoutStartSec" must be greater than the "ExecStartPre".
                     Paste:
                         Description=software_log_monitor
                         After=multi-user.target
@@ -59,9 +60,11 @@ The sample YAML configuration file has plenty of notes to help explain the setup
                         [Service]
                         Type=simple
                         User=root
+                        TimeoutStartSec=240
+                        ExecStartPre=/bin/sleep 120
                         WorkingDirectory=/<path to program>/software_log_monitor
                         ExecStart=/usr/bin/python3  /<path to program>/software_log_monitor/software_log_monitor.py                                                         
-                        Restart=always
+                        Restart=no
 
                         [Install]
                         WantedBy=multi-user.target
