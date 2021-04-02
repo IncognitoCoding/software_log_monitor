@@ -24,6 +24,7 @@ from threading import Thread
 from threading import Event
 import time
 import socket
+import re
 
 # Libraries
 from functools import partial
@@ -735,16 +736,10 @@ def main():
 
         except ValueError as err:
 
-            print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|{err}, Error on line {format(sys.exc_info()[-1].tb_lineno)} in <{__name__}>')
-
             ###########################################################
             # Currently the program is exiting on any discovered error. 
             ###########################################################
 
-            # System exit print output for general setup
-            print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|{err}')
-            print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Info|See log for more details')
-            
             root_logger.error(f'{err}')
             
             # Checking if the user chooses not to send program errors to email.
@@ -754,9 +749,41 @@ def main():
                 
                 try:
                     
-                    # Calls function to send the email.
-                    # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
-                    send_email(email_settings, "Software Log Monitor Program Issue Occured", f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|Exception Thrown|{err}', root_logger)
+                    # Checks if the user entered an incorrect program entry.
+                    if 'The system cannot find the file specified' in str(err): 
+                        
+                        # Pulls the subprocess entry name using regex. The .* is used to match any character between ().
+                        # Err Example: An error occurred while running the subprocess (noAPP), [WinError 2] The system cannot find the file specified, Originating error on line 80 in <ictoolkit.directors.subprocess_director>
+                        # Result: noAPP
+                        result = re.search(r"\(.*\)", str(err))
+        
+                        # Sets the matching result.
+                        subprocess_command = result.group(0)
+
+                        # Calls function to send the email.
+                        # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
+                        send_email(email_settings, "Software Log Monitor - Post-Processing Failed To Run", f'The system cannot find the file specified while attempting to run the following post-processing commands {subprocess_command}. This error can happen because of a typo, or the calling program is not referenceable. The program will continue, but the post-processing action will not complete without manual intervention.', root_logger)
+
+                    # Checks if the user entered a subprocess that didn't get flagged by an incorrect program entry.
+                    elif 'The sub-process' in str(err):
+                        
+                        # Pulls the subprocess entry name using regex. The .* is used to match any character between ().
+                        # Err Example: An error occurred while running the subprocess (noAPP), [WinError 2] The system cannot find the file specified, Originating error on line 80 in <ictoolkit.directors.subprocess_director>
+                        # Result: noAPP
+                        result = re.search(r"\(.*\)", str(err))
+        
+                        # Sets the matching result.
+                        subprocess_command = result.group(0)
+
+                        # Calls function to send the email.
+                        # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
+                        send_email(email_settings, "Software Log Monitor - Post-Processing Failed To Run", f'The system countered the following error ({err}) while running the following post-processing commands {subprocess_command}. This error can happen because of a typo, or the calling program is not referenceable. The program will continue, but the post-processing action will not complete without manual intervention.', root_logger)
+
+                    else:
+
+                        # Calls function to send the email.
+                        # Calling Example: send_email(<Dictionary: email settings>, <Subject>, <Issue Message To Send>, <configured logger>)
+                        send_email(email_settings, "Software Log Monitor - Program Issue Occured", f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}|Error|Exception Thrown|{err}', root_logger)
 
                 except Exception as err:
                     root_logger.error(f'{err}')
@@ -766,9 +793,39 @@ def main():
             else:
                 root_logger.error('The user did not choose an option on sending program errors to email. Continuing to exit')
 
-            root_logger.error('Exiting because of the exception error....')
+            # Checks if the user entered an incorrect program entry.
+            if 'The system cannot find the file specified' in str(err): 
+                
+                # Pulls the subprocess entry name using regex. The .* is used to match any character between ().
+                # Err Example: An error occurred while running the subprocess (noAPP), [WinError 2] The system cannot find the file specified, Originating error on line 80 in <ictoolkit.directors.subprocess_director>
+                # Result: noAPP
+                result = re.search(r"\(.*\)", str(err))
 
-            exit()
+                # Sets the matching result.
+                subprocess_command = result.group(0)
+
+                root_logger.error(f'The system cannot find the file specified while attempting to run the following post-processing commands {subprocess_command}. This error can happen because of a typo, or the calling program is not referenceable. The program will continue, but the post-processing action will not complete without manual intervention.')
+
+            # Checks if the user entered a subprocess that didn't get flagged by an incorrect program entry.
+            elif 'The sub-process' in str(err):
+                
+                # Pulls the subprocess entry name using regex. The .* is used to match any character between ().
+                # Err Example: An error occurred while running the subprocess (noAPP), [WinError 2] The system cannot find the file specified, Originating error on line 80 in <ictoolkit.directors.subprocess_director>
+                # Result: noAPP
+                result = re.search(r"\(.*\)", str(err))
+
+                # Sets the matching result.
+                subprocess_command = result.group(0)
+
+                root_logger.error(f'The system countered the following error ({err}) while running the following post-processing commands {subprocess_command}. This error can happen because of a typo, or the calling program is not referenceable. The program will continue, but the post-processing action will not complete without manual intervention.')
+
+            else:
+                
+                root_logger.error(f'{err}')
+                root_logger.error('Exiting because of the exception error....')
+
+                exit()
+
 
 
 # Checks that this is the main program initiates the classes to start the functions.
