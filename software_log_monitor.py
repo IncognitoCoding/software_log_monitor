@@ -45,7 +45,7 @@ __author__ = 'IncognitoCoding'
 __copyright__ = 'Copyright 2021, software_log_monitor'
 __credits__ = ['IncognitoCoding', 'Monoloch']
 __license__ = 'GPL'
-__version__ = '0.7'
+__version__ = '0.8'
 __maintainer__ = 'IncognitoCoding'
 __status__ = 'Development'
 
@@ -808,6 +808,7 @@ def main():
                 # Sets the matching result.
                 subprocess_command = result.group(0)
 
+                root_logger.error(f'{err}')
                 root_logger.error(f'The system cannot find the file specified while attempting to run the following post-processing commands {subprocess_command}. This error can happen because of a typo, or the calling '
                                     'program is not referenceable. The program will continue, but the post-processing action will not complete without manual intervention.')
 
@@ -821,7 +822,8 @@ def main():
 
                 # Sets the matching result.
                 subprocess_command = result.group(0)
-
+                
+                root_logger.error(f'{err}')
                 root_logger.error(f'The system countered the following error ({err}) while running the following post-processing commands {subprocess_command}. This error can happen because of a typo, or the calling program '
                                     'is not referenceable. The program will continue, but the post-processing action will not complete without manual intervention.')
 
