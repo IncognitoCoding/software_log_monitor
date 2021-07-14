@@ -46,6 +46,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
                     - Set action to start program
                     - Program/Script: python
                     - Arguments: "C:\<path to the program>\software_log_monitor.py"
+                    - Uncheck "Stop the task if it runs longer than:"
        Step 4.2 (Optional - Linux Ubuntu): Set up a service to run the program.
             Step 4.2.1:  Create a new service file.
                 Run: cd /lib/systemd/system
