@@ -44,7 +44,7 @@ The sample YAML configuration file has plenty of notes to help explain the setup
                     - Run hidden
                     - Set trigger time. Maybe daily around midnight
                     - Set action to start program
-                    - Program/Script: python
+                    - Program/Script: "<python.exe path>"
                     - Arguments: "C:\<path to the program>\software_log_monitor.py"
                     - Uncheck "Stop the task if it runs longer than:"
        Step 4.2 (Optional - Linux Ubuntu): Set up a service to run the program.
